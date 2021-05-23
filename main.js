@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function startGame() {
     gameInterval = setInterval(startBird, 20);
     document.addEventListener("keyup", control);
+    document.addEventListener("click", control);
     generateObstacle();
   }
 
@@ -26,7 +27,12 @@ document.addEventListener("DOMContentLoaded", () => {
     bird.style.left = birdLeft + "px";
   }
   function control(e) {
+    console.log(e);
+    e.preventDefault();
     if (e.keyCode === 32) {
+      jump();
+    }
+    if (e.screenX) {
       jump();
     }
   }
@@ -39,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const obstacle = document.createElement("div");
     const topObstacle = document.createElement("div");
     let obstacleLeft = 440;
-    let randomHeight = Math.random() * 60;
+    let randomHeight = Math.random() * 100;
     if (!isGameOver) {
       topObstacle.classList.add("obstacle-top");
       obstacle.classList.add("obstacle");
@@ -80,6 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
     clearInterval(gameInterval);
     isGameOver = true;
     document.removeEventListener("keyup", control);
+    document.removeEventListener("click", control);
   }
 
   function isOverLapping(obstacle, topObstacle, bird) {
