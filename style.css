@@ -60,6 +60,19 @@ body {
   display: none;
 }
 
+.start-card {
+  top: 50%;
+  position: absolute;
+  left: 50%;
+  text-align: center;
+  padding: 20px;
+  background: white;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  border-radius: 10px;
+}
+
 .btn {
   padding: 10px 30px;
   background: #73bf2e;

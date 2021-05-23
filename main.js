@@ -10,12 +10,16 @@ document.addEventListener("DOMContentLoaded", () => {
   let gravity = 2;
   let score = 0;
   let gameInterval;
+  document.getElementById("startButton").onclick = () => {
+    document.querySelector(".start-card").style.display = "none";
+    startGame();
+  };
   function startGame() {
     gameInterval = setInterval(startBird, 20);
     document.addEventListener("keyup", control);
     generateObstacle();
   }
-  startGame();
+
   function startBird() {
     birdBottom -= gravity;
     bird.style.bottom = birdBottom + "px";
@@ -43,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
     obstacle.style.left = obstacleLeft + "px";
     obstacle.style.bottom = randomHeight + "px";
     topObstacle.style.left = obstacleLeft + "px";
-    topObstacle.style.bottom = randomHeight + 450 + "px";
+    topObstacle.style.bottom = randomHeight + 430 + "px";
     gameDisplay.appendChild(obstacle);
     gameDisplay.appendChild(topObstacle);
 
@@ -57,13 +61,18 @@ document.addEventListener("DOMContentLoaded", () => {
         gameDisplay.removeChild(obstacle);
         gameDisplay.removeChild(topObstacle);
       }
+
       if (birdBottom <= 0 || isOverLapping(obstacle, topObstacle, bird)) {
         gameOver();
         clearInterval(obstacleTimer);
+        clearTimeout(timeout);
       }
     }
+    let timeout;
     let obstacleTimer = setInterval(moveObstacle, 20);
-    if (!isGameOver) setTimeout(generateObstacle, 3000);
+    if (!isGameOver) {
+      timeout = setTimeout(generateObstacle, 3000);
+    }
   }
 
   function gameOver() {
@@ -103,11 +112,18 @@ document.addEventListener("DOMContentLoaded", () => {
       highScore = score;
     }
     window.localStorage.setItem("highestScore", `${highScore}`);
-    displayScore.appendChild(document.createTextNode(` ${score}`));
-    highest.appendChild(document.createTextNode(` ${highScore}`));
+    displayScore.childNodes[1].textContent = ` ${score}`;
+    highest.childNodes[1].textContent = ` ${highScore}`;
     scoreCard.style.display = "block";
   }
   document.querySelector(".btn").addEventListener("click", () => {
-    window.location.reload();
+    birdBottom = 325;
+    isGameOver = false;
+    score = 0;
+    gameDisplay.removeChild(gameDisplay.querySelector(".obstacle"));
+    gameDisplay.removeChild(gameDisplay.querySelector(".obstacle-top"));
+
+    document.querySelector(".score-card").style.display = "none";
+    startGame();
   });
 });
