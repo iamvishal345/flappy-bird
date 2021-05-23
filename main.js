@@ -27,7 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
     bird.style.left = birdLeft + "px";
   }
   function control(e) {
-    console.log(e);
     e.preventDefault();
     if (e.keyCode === 32) {
       jump();
